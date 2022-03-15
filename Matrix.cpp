@@ -24,8 +24,8 @@ public:
 
     T operator[](int);
     bool operator== (Matrix<T>);
+    Matrix<T> operator* (int);
     /*Matrix<T> operator+(Matrix<T>, Matrix<T>);
-    Matrix<T> operator*(Matrix<T>, int);
     Matrix<T> operator*(Matrix<T>, Matrix<T>);*/
 
     void print();
@@ -132,4 +132,14 @@ T Matrix<T>::operator[] (int subscript)
     return element[i][j]; // возврат ссылки на элемент массива
 }
 
-
+template <typename T>
+Matrix<T> Matrix<T>::operator* (int k)
+{
+    Matrix<T> M(rows, columns);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            M.element[i][j] = element[i][j] * k;
+        }
+    }
+        return M;
+}
