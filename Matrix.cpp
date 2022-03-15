@@ -22,6 +22,12 @@ public:
     void setRows(int r);
     void setColumns(int c);
 
+    T operator[](int);
+    bool operator== (Matrix<T>);
+    /*Matrix<T> operator+(Matrix<T>, Matrix<T>);
+    Matrix<T> operator*(Matrix<T>, int);
+    Matrix<T> operator*(Matrix<T>, Matrix<T>);*/
+
     void print();
     void fill();
 };
@@ -92,3 +98,38 @@ void Matrix<T>::fill()
         std::cout << std::endl;
     }
 }
+
+template <typename T>
+bool Matrix<T>::operator== (Matrix<T> b)
+{
+    if ((rows != b.rows) or (columns != b.columns))
+        return false;
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < columns; j++)
+        {
+            if (element[i][j] != b.element[i][j])
+                return false;
+        }
+    }
+
+    return true;
+
+}
+
+template <typename T>
+T Matrix<T>::operator[] (int subscript)
+{
+    if (subscript < 0 || subscript >= rows * columns)
+    {
+        std::cerr << "\n Ошибка индекса: " << subscript << std::endl;
+        return 0;
+    }
+    // нумерация с 1, а индексы с 0
+    int i = int((subscript - 1) / columns); // целая часть от деления номер-1 на количество столбцов
+    int j = (subscript - 1) % columns; // остаток
+
+    return element[i][j]; // возврат ссылки на элемент массива
+}
+
+
