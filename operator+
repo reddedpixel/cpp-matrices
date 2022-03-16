@@ -14,4 +14,6 @@ Matrix<T> Matrix<T>::operator+ (Matrix<T> a, Matrix<T> b)
 			}
 		}
 	}
+	else
+		cout << "No, you cant do this" << endl;
 }
