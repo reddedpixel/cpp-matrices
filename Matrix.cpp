@@ -25,8 +25,9 @@ public:
     T operator[](int);
     bool operator== (Matrix<T>);
     Matrix<T> operator* (int);
+    Matrix<T> operator*(Matrix<T>);
     /*Matrix<T> operator+(Matrix<T>, Matrix<T>);
-    Matrix<T> operator*(Matrix<T>, Matrix<T>);*/
+    */
 
     void print();
     void fill();
@@ -142,4 +143,30 @@ Matrix<T> Matrix<T>::operator* (int k)
         }
     }
         return M;
+}
+
+
+template <typename T>
+Matrix<T> Matrix<T>::operator* (Matrix<T> b)
+{
+        // проверка на возможность выполнения операции
+        if (columns != b.rows)
+        {
+            std::cout << "Умножение невозможно!" << std::endl;
+            exit(0);
+        }
+        
+        // умножениие
+        Matrix<T> M(rows, b.columns);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < b.columns; j++)
+            {
+                M.element[i][j] = 0;
+                for (int k = 0; k < columns; k++)
+                    M.element[i][j] += element[i][k] * b.element[k][j];
+            }
+        }
+    return M;
+    
 }
