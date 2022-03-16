@@ -1,0 +1,17 @@
+Matrix<T> operator+(Matrix<T>, Matrix<T>);
+
+template <typename T>
+Matrix<T> Matrix<T>::operator+ (Matrix<T> a, Matrix<T> b)
+{
+	if (a.columns == b.columns) && (a.row == b.rows)
+	{
+		Matrix<T> M(a.rows, a.columns);
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+			{
+				M.element[i][j] = a.element[i][j] + b.element[i][j];
+			}
+		}
+	}
+}
