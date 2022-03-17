@@ -26,8 +26,8 @@ public:
     bool operator== (Matrix<T>);
     Matrix<T> operator* (int);
     Matrix<T> operator*(Matrix<T>);
-    /*Matrix<T> operator+(Matrix<T>, Matrix<T>);
-    */
+    Matrix<T> operator+(Matrix<T>);
+    
 
     void print();
     void fill();
@@ -153,7 +153,7 @@ Matrix<T> Matrix<T>::operator* (Matrix<T> b)
         if (columns != b.rows)
         {
             std::cout << "”множение невозможно!" << std::endl;
-            exit(0);
+            exit(0); // ѕотому что return отказалс€ работать т.к. 0 дл€ него int, а не Matrix<T>
         }
         
         // умножениие
@@ -169,4 +169,24 @@ Matrix<T> Matrix<T>::operator* (Matrix<T> b)
         }
     return M;
     
+}
+template <typename T>
+Matrix<T> Matrix<T>::operator+ (Matrix<T> b)
+{
+    if ((columns == b.columns) || (rows == b.rows))
+    {
+    std::cout << "No, you can't do this" << std::endl;
+    exit(0);
+    }
+    Matrix<T> M(rows, columns);
+        
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                M.element[i][j] = element[i][j] + b.element[i][j];
+            }
+        }
+    
+    return M;
 }
