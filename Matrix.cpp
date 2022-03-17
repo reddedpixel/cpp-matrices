@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-template <typename T> // T - любой тип данных
+template <typename T> // T - Г«ГѕГЎГ®Г© ГІГЁГЇ Г¤Г Г­Г­Г»Гµ
 class Matrix
 {
 private:
@@ -123,14 +123,14 @@ T Matrix<T>::operator[] (int subscript)
 {
     if (subscript < 0 || subscript >= rows * columns)
     {
-        std::cerr << "\n Ошибка индекса: " << subscript << std::endl;
+        std::cerr << "\n ГЋГёГЁГЎГЄГ  ГЁГ­Г¤ГҐГЄГ±Г : " << subscript << std::endl;
         return 0;
     }
-    // нумерация с 1, а индексы с 0
-    int i = int((subscript - 1) / columns); // целая часть от деления номер-1 на количество столбцов
-    int j = (subscript - 1) % columns; // остаток
+    // Г­ГіГ¬ГҐГ°Г Г¶ГЁГї Г± 1, Г  ГЁГ­Г¤ГҐГЄГ±Г» Г± 0
+    int i = int((subscript - 1) / columns); // Г¶ГҐГ«Г Гї Г·Г Г±ГІГј Г®ГІ Г¤ГҐГ«ГҐГ­ГЁГї Г­Г®Г¬ГҐГ°-1 Г­Г  ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г±ГІГ®Г«ГЎГ¶Г®Гў
+    int j = (subscript - 1) % columns; // Г®Г±ГІГ ГІГ®ГЄ
 
-    return element[i][j]; // возврат ссылки на элемент массива
+    return element[i][j]; // ГўГ®Г§ГўГ°Г ГІ Г±Г±Г»Г«ГЄГЁ Г­Г  ГЅГ«ГҐГ¬ГҐГ­ГІ Г¬Г Г±Г±ГЁГўГ 
 }
 
 template <typename T>
@@ -149,14 +149,14 @@ Matrix<T> Matrix<T>::operator* (int k)
 template <typename T>
 Matrix<T> Matrix<T>::operator* (Matrix<T> b)
 {
-        // проверка на возможность выполнения операции
+        // ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г®ГЇГҐГ°Г Г¶ГЁГЁ
         if (columns != b.rows)
         {
-            std::cout << "Умножение невозможно!" << std::endl;
-            exit(0); // Потому что return отказался работать т.к. 0 для него int, а не Matrix<T>
+            std::cout << "Г“Г¬Г­Г®Г¦ГҐГ­ГЁГҐ Г­ГҐГўГ®Г§Г¬Г®Г¦Г­Г®!" << std::endl;
+            exit(0); // ГЏГ®ГІГ®Г¬Гі Г·ГІГ® return Г®ГІГЄГ Г§Г Г«Г±Гї Г°Г ГЎГ®ГІГ ГІГј ГІ.ГЄ. 0 Г¤Г«Гї Г­ГҐГЈГ® int, Г  Г­ГҐ Matrix<T>
         }
         
-        // умножениие
+        // ГіГ¬Г­Г®Г¦ГҐГ­ГЁГЁГҐ
         Matrix<T> M(rows, b.columns);
         for (int i = 0; i < rows; i++)
         {
@@ -173,7 +173,7 @@ Matrix<T> Matrix<T>::operator* (Matrix<T> b)
 template <typename T>
 Matrix<T> Matrix<T>::operator+ (Matrix<T> b)
 {
-    if ((columns == b.columns) || (rows == b.rows))
+    if ((columns != b.columns) || (rows != b.rows))
     {
     std::cout << "No, you can't do this" << std::endl;
     exit(0);
