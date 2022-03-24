@@ -4,10 +4,10 @@ template <typename T>
 class Matrix
 {
 private:
-	int rows;
-	int columns;
-	T* element;
-public:
+    int rows;
+    int columns;
+    T* element;
+
     class Iterator
     {
     private:
@@ -24,9 +24,10 @@ public:
             return row[i];
         }
         Iterator(T* row) : row(row) {
-            length = sizeof(row)/sizeof(row[0]);
+            length = sizeof(row) / sizeof(row[0]);
         }
     };
+public:
 
     Matrix<T>()
     {
@@ -34,8 +35,8 @@ public:
         columns = 0;
         element = nullptr;
     }
-    
-	Matrix<T>(int r, int c)
+
+    Matrix<T>(int r, int c)
     {
         rows = r;
         columns = c;
@@ -44,11 +45,11 @@ public:
 
     ~Matrix<T>() { std::cout << "deleted" << std::endl; }
 
-	//gets
+    //gets
     int getRows() { return rows; }
     int getColumns() { return columns; }
 
-	//sets
+    //sets
     void setRows(int r) { rows = r; }
     void setColumns(int c) { columns = c; }
 
@@ -64,7 +65,7 @@ public:
     }
 
     // Print out matrix
-	void print()
+    void print()
     {
         for (int i = 0; i < rows; i++)
         {
@@ -77,7 +78,7 @@ public:
     }
 
     // Fill in matrix
-	void fill()
+    void fill()
     {
         for (int i = 0; i < rows; i++)
         {
@@ -89,7 +90,7 @@ public:
     }
 
     // Check if two matrices are equal
-	bool operator==(Matrix<T> b)
+    bool operator==(Matrix<T> b)
     {
         if ((rows != b.rows) or (columns != b.columns))
             return false;
@@ -102,44 +103,6 @@ public:
             }
         }
         return true;
-    }
-
-    // Multiply matrix by number
-     Matrix<T> operator* (int k)
-     {
-         Matrix<T> M(rows, columns);
-         mCopy(this, M);
-         for (int i = 0; i < rows; i++) 
-         {
-             for (int j = 0; j < columns; j++) 
-             {
-                 for (int l = 0; l < k; l++)
-                    M.element[i * columns + j] += M.element[i * columns + j];
-             }
-         }
-         return M;
-     }
-    
-    // Multiply two matrices
-    Matrix<T> operator* (Matrix<T> b)
-    {
-        if (columns != b.rows)
-        {
-            std::cout << "Unable to multiply matrices with these dimensions." << std::endl;
-            exit(0);
-        }
-
-        Matrix<T> M(rows, b.columns);
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < b.columns; j++)
-            {
-                M.element[i * b.columns + j] = 0;
-                for (int k = 0; k < columns; k++)
-                    M.element[i * b.columns + j] += element[i * columns + k] * b.element[k * b.columns + j];
-            }
-        }
-        return M;
     }
 
     // Add matrices together
@@ -157,6 +120,45 @@ public:
             for (int j = 0; j < columns; j++)
             {
                 M.element[i * columns + j] = element[i * columns + j] + b.element[i * columns + j];
+            }
+        }
+        return M;
+    }
+
+
+    // Multiply matrix by number
+    Matrix<T> operator* (int k)
+    {
+        Matrix<T> M(rows, columns);
+        mCopy(this, M);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                for (int l = 0; l < k; l++)
+                    M.element[i * columns + j] += M.element[i * columns + j];
+            }
+        }
+        return M;
+    }
+
+    // Multiply two matrices
+    Matrix<T> operator* (Matrix<T> b)
+    {
+        if (columns != b.rows)
+        {
+            std::cout << "Unable to multiply matrices with these dimensions." << std::endl;
+            exit(0);
+        }
+
+        Matrix<T> M(rows, b.columns);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < b.columns; j++)
+            {
+                M.element[i * b.columns + j] = 0;
+                for (int k = 0; k < columns; k++)
+                    M.element[i * b.columns + j] += element[i * columns + k] * b.element[k * b.columns + j];
             }
         }
         return M;
