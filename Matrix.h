@@ -1,4 +1,4 @@
-п»ї#pragma once
+#pragma once
 #include <iostream>
 template <typename T>
 class Matrix
@@ -7,7 +7,7 @@ private:
     int rows;
     int columns;
     T* element;
-
+public:
     class Iterator
     {
     private:
@@ -27,7 +27,6 @@ private:
             length = sizeof(row) / sizeof(row[0]);
         }
     };
-public:
 
     Matrix<T>()
     {
@@ -42,6 +41,18 @@ public:
         columns = c;
         element = new T[r * c];
     }
+
+    Matrix<T>(Matrix& matrixToCopy) // конструктор копии
+        : rows(matrixToCopy.rows), columns(matrixToCopy.columns)
+        {
+            element = new T* [matrixToCopy.rows];
+            for (int i = 0; i < matrixToCopy.rows; i++)
+            {
+                element[i] = new T[matrixToCopy.columns];
+                for (int j = 0; j < matrixToCopy.columns; j++)
+                    element[i][j] = matrixToCopy.element[i][j];
+            }
+        }
 
     ~Matrix<T>() { std::cout << "deleted" << std::endl; }
 
@@ -105,27 +116,6 @@ public:
         return true;
     }
 
-    // Add matrices together
-    Matrix<T> operator+(Matrix<T> b)
-    {
-        if ((columns != b.columns) || (rows != b.rows))
-        {
-            std::cout << "Unable to sum matrices with unequal dimensions." << std::endl;
-            exit(0);
-        }
-
-        Matrix<T> M(rows, columns);
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
-            {
-                M.element[i * columns + j] = element[i * columns + j] + b.element[i * columns + j];
-            }
-        }
-        return M;
-    }
-
-
     // Multiply matrix by number
     Matrix<T> operator* (int k)
     {
@@ -159,6 +149,26 @@ public:
                 M.element[i * b.columns + j] = 0;
                 for (int k = 0; k < columns; k++)
                     M.element[i * b.columns + j] += element[i * columns + k] * b.element[k * b.columns + j];
+            }
+        }
+        return M;
+    }
+
+    // Add matrices together
+    Matrix<T> operator+(Matrix<T> b)
+    {
+        if ((columns != b.columns) || (rows != b.rows))
+        {
+            std::cout << "Unable to sum matrices with unequal dimensions." << std::endl;
+            exit(0);
+        }
+
+        Matrix<T> M(rows, columns);
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                M.element[i * columns + j] = element[i * columns + j] + b.element[i * columns + j];
             }
         }
         return M;
