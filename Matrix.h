@@ -53,7 +53,7 @@ public:
     void setRows(int r) { rows = r; }
     void setColumns(int c) { columns = c; }
 
-    // Get element
+    // Get element foo[a][b]
     Iterator operator[](int i)
     {
         if (i < 0 || i >= rows)
@@ -130,13 +130,13 @@ public:
     Matrix<T> operator* (int k)
     {
         Matrix<T> M(rows, columns);
-        mCopy(this, M);
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < columns; j++)
             {
-                for (int l = 0; l < k; l++)
-                    M.element[i * columns + j] += M.element[i * columns + j];
+                M.element[i * columns + j] = element[i * columns + j];
+                for (int l = 0; l < k-1; l++) // k-1 because of previous line
+                    M.element[i * columns + j] += element[i * columns + j];
             }
         }
         return M;
@@ -162,5 +162,17 @@ public:
             }
         }
         return M;
+    }
+
+    // Copy constructor
+    Matrix<T>(const Matrix& matrixToCopy)
+        : rows(matrixToCopy.rows), columns(matrixToCopy.columns)
+    {
+        element = new T [rows * columns];
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+                element[i * columns + j] = matrixToCopy.element[i * columns + j];
+        }
     }
 };
